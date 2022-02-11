@@ -42,32 +42,19 @@ labels = allSentmnts['FinalSentiment'].values #sentiment column
 def ProcessText(inText):
     processed_inText = []
 
-    for sentence in range(0, len(inText)):
-
-        #Remove all special characters
-        processed_t = re.sub(r'\W',' ',str(inText[sentence]))
-
-        #Remove all single characters in the middle of the sentence, start of sentence, and end of sentence
-        # \D: non-digit characters      
+    for txt in range(0, len(inText)):
+        processed_t = re.sub(r'\W',' ',str(inText[txt]))
         processed_t = re.sub(r'(\s\D\s)',' ',processed_t)
-
-        # Remove single characters from the start
         processed_t= re.sub(r'^(\D\s)', ' ', processed_t) 
-
-        # Substituting multiple spaces with single space
         processed_t = re.sub(r'\s+', ' ', processed_t, flags=re.I)
-
-        
-        # to Lowercase
         processed_t = processed_t.lower()
-
         processed_inText.append(processed_t)
     return processed_inText
 
 
 processed_features = ProcessText(features)
 
-vectorizer = TfidfVectorizer (max_features = 2500, min_df=7, max_df=0.8, stop_words = stopwords.words('english'))
+vectorizer = TfidfVectorizer (max_features = 1500, min_df=7, max_df=0.8, stop_words = stopwords.words('english'))
 Vprocessed_features = vectorizer.fit_transform(processed_features).toarray()
 
 
